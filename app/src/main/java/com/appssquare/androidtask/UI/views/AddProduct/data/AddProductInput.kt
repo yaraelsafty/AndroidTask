@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class AddProductInput(
     @SerializedName("name") var name : String,
-    @SerializedName("price") var price : Int,
-    @SerializedName("quantity") var quantity : Int)
+    @SerializedName("price") var price : String,
+    @SerializedName("quantity") var quantity : String)

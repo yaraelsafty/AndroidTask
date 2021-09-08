@@ -8,7 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.appssquare.androidtask.UI.views.Products.ProductsActivity
+import com.appssquare.androidtask.UI.views.MainActivity
 import com.appssquare.androidtask.R
 import com.appssquare.androidtask.Utils.Resource
 import com.appssquare.androidtask.Utils.ShowToast
@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                         response.data?.let { saveToken(it.token) }
                         ShowToast("Login successfully")
                         response.data?.let { loginResponse ->
-                            Intent(this@LoginActivity, ProductsActivity::class.java).also {
+                            Intent(this@LoginActivity, MainActivity::class.java).also {
                                 startActivity(it)
                             }
                         }
@@ -87,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
         var token : String? = sharedPreference.getString("TOKEN","")
         if (!token?.isEmpty()!!) {
             Token = token
-            val homeIntent = Intent(this, ProductsActivity::class.java)
+            val homeIntent = Intent(this, MainActivity ::class.java)
             startActivity(homeIntent)
             finish()
         }

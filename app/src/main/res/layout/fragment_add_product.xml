@@ -15,6 +15,7 @@
           android:id="@+id/etName"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:hint="@string/name"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent" />
@@ -24,6 +25,8 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="16dp"
+          android:hint="@string/quantity"
+          android:inputType="number"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/etPrice" />
@@ -33,14 +36,15 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="16dp"
+          android:hint="@string/price"
+          android:inputType="number"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/etName" />
 
       <Button
-          android:id="@+id/btnLogin"
+          android:id="@+id/btnAddProduct"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_gravity="start"
           android:layout_marginTop="20dp"
           android:text="@string/Add"
           app:layout_constraintEnd_toEndOf="parent"

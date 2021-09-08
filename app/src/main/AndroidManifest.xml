@@ -3,7 +3,7 @@
     package="com.appssquare.androidtask">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,18 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidTask">
         <activity
-            android:name="com.appssquare.androidtask.UI.views.Login.LoginActivity"
-            android:exported="true" >
+            android:name=".UI.views.Login.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.appssquare.androidtask.UI.views.Products.ProductsActivity"
-            android:exported="true">
-
-        </activity>
+            android:name=".UI.views.MainActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

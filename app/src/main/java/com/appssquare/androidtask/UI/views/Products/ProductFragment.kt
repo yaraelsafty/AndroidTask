@@ -1,67 +1,79 @@
 package com.appssquare.androidtask.UI.views.Products
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appssquare.androidtask.R
+import com.appssquare.androidtask.UI.views.AddProduct.AddProductFragment
 import com.appssquare.androidtask.UI.views.Products.Adapter.ProductsAdapter
-import com.appssquare.androidtask.Utils.Constants.Token
+import com.appssquare.androidtask.Utils.Constants
 import com.appssquare.androidtask.Utils.Resource
 import com.appssquare.androidtask.Utils.ShowToast
+import com.appssquare.androidtask.Utils.replaceFragment
 import com.appssquare.androidtask.network.Repository.MainRepository
 import com.appssquare.androidtask.network.VMProviderFactory.ViewModelProviderFactory
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_product.*
 
-class ProductsActivity : AppCompatActivity() {
+
+class ProductFragment : Fragment() {
     lateinit var productsViewModel: ProductsViewModel
     private lateinit var adapter: ProductsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_product, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         init()
+
     }
 
     private fun init() {
         val repository = MainRepository()
-        val factory = ViewModelProviderFactory(application, repository)
+        val factory = ViewModelProviderFactory(this.requireActivity().application, repository)
         productsViewModel = ViewModelProvider(this, factory).get(ProductsViewModel::class.java)
-        etSearch.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                productsViewModel.getProducts(Token,0 , s.toString())
-                observeProducts()
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        })
-        productsViewModel.getProducts(Token,0 , etSearch.text.toString())
+        productsViewModel.getProducts(Constants.Token,0 , "")
+        btnSearch.setOnClickListener {
+            productsViewModel.getProducts(Constants.Token,0 , etSearch.toString())
+            observeProducts()
+        }
+        btnAdd.setOnClickListener {
+            replaceFragment(AddProductFragment.newInstance(),R.id.container,false)
+//
+        }
         observeProducts()
     }
 
     private fun observeProducts() {
-        productsViewModel.productsData.observe(this, Observer { response ->
+        productsViewModel.productsData.observe(this.viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
 //                    hideProgressBar()
                     response.data?.let { productsResponse ->
-                        val linearLayoutManager = LinearLayoutManager(this)
+                        val linearLayoutManager = LinearLayoutManager(this.context)
                         rvProducts.layoutManager = linearLayoutManager
                         rvProducts.addItemDecoration(
                             DividerItemDecoration(
-                                this,
+                                this.context,
                                 linearLayoutManager.orientation
                             )
                         )
-                        adapter = ProductsAdapter(this, response.data.data)
+                        adapter = ProductsAdapter(this.requireContext(), response.data.data)
                         rvProducts.adapter = adapter
 
                     }
@@ -81,5 +93,9 @@ class ProductsActivity : AppCompatActivity() {
         })
 
     }
-
-}
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+            ProductFragment()
+            }
+    }
