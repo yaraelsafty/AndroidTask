@@ -86,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
         val sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         var token : String? = sharedPreference.getString("TOKEN","")
         if (!token?.isEmpty()!!) {
+            Token = token
             val homeIntent = Intent(this, ProductsActivity::class.java)
             startActivity(homeIntent)
             finish()

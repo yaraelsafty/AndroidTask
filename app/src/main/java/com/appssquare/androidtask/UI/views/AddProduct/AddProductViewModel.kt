@@ -1,27 +1,29 @@
-package com.appssquare.androidtask.UI.views.Products
+package com.appssquare.androidtask.UI.views.AddProduct
 
 import android.app.Application
+import android.net.wifi.WifiManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.appssquare.androidtask.UI.views.AddProduct.data.AddProductInput
+import com.appssquare.androidtask.UI.views.AddProduct.data.AddProductResponse
 import com.appssquare.androidtask.UI.views.Products.data.ProductResponse
 import com.appssquare.androidtask.Utils.Resource
 import com.appssquare.androidtask.network.Repository.MainRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class ProductsViewModel (app: Application,
-                         private val mainRepository: MainRepository
-) : AndroidViewModel(app) , IProducts {
-    val productsData: MutableLiveData<Resource<ProductResponse>> = MutableLiveData()
+class AddProductViewModel(app: Application,
+                          private val mainRepository: MainRepository
+) : AndroidViewModel(app) {
+    val productsData: MutableLiveData<Resource<AddProductResponse>> = MutableLiveData()
 
-
-    fun getProducts(token :String , skip : Int ,search :String) = viewModelScope.launch {
-        fetchProducts(token,skip ,search)
+    fun AddProducts(token :String ,  input :AddProductInput) = viewModelScope.launch {
+        AddProduct(token,input)
     }
-    override suspend fun fetchProducts(token :String, skip : Int, search :String) {
+     suspend fun AddProduct(token :String, input :AddProductInput) {
         productsData.postValue(Resource.Loading())
-        val response = mainRepository.getProducts(token,skip ,search)
+        val response = mainRepository.AddProduct(token, input)
         productsData.postValue(handleProductsResponse(response))
 //        try {
 //            if (hasInternetConnection(getApplication<MyApplication>())) {
@@ -47,10 +49,10 @@ class ProductsViewModel (app: Application,
 //                    )
 //                )
 //            }
- //       }
+        //       }
     }
 
-    private fun handleProductsResponse(response: Response<ProductResponse>): Resource<ProductResponse> {
+    private fun handleProductsResponse(response: Response<AddProductResponse>): Resource<AddProductResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
