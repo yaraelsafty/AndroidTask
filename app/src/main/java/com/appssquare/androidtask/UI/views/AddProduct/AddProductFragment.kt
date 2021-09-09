@@ -50,7 +50,7 @@ class AddProductFragment : Fragment() {
             if (price.isNotEmpty() && name.isNotEmpty()) {
                 addProductViewModel.AddProducts(Token,
                     AddProductInput(name,price,quantity))
-//                loading.visibility = View.VISIBLE
+                loading.visibility = View.VISIBLE
                 observeProducts()
             }else{
                 ShowToast("please, enter Email and Password")
@@ -62,20 +62,20 @@ class AddProductFragment : Fragment() {
         addProductViewModel.productsData.observe(this.viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
-//                    hideProgressBar()
+                    loading.visibility = View.GONE
                     response.data?.let { productsResponse ->
                         activity?.onBackPressed()
                     }
                 }
 
                 is Resource.Error -> {
-//                    hideProgressBar()
+                    loading.visibility = View.GONE
                     response.message?.let { message ->
                     }
                 }
 
                 is Resource.Loading -> {
-//                    showProgressBar()
+                    loading.visibility = View.VISIBLE
                 }
             }
         })

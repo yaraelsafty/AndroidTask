@@ -89,14 +89,12 @@ class ProductFragment : Fragment() {
                 }
 
                 is Resource.Error -> {
-//                    hideProgressBar()
                     response.message?.let { message ->
                         ShowToast(message)
                     }
                 }
 
                 is Resource.Loading -> {
-//                    showProgressBar()
                 }
             }
         })

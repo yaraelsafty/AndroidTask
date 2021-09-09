@@ -16,6 +16,8 @@
             android:layout_height="0dp"
             app:shimmer_repeat_mode="restart"
             app:shimmer_shape="radial"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toTopOf="@+id/btnAdd"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
