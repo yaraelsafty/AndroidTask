@@ -48,6 +48,8 @@ class ProductFragment : Fragment() {
         val factory = ViewModelProviderFactory(this.requireActivity().application, repository)
         productsViewModel = ViewModelProvider(this, factory).get(ProductsViewModel::class.java)
         productsViewModel.getProducts(Constants.Token,0 , "")
+        shimmerLayout.startShimmer()
+
         btnSearch.setOnClickListener {
             productsViewModel.getProducts(Constants.Token,0 , etSearch.toString())
             observeProducts()
@@ -73,9 +75,16 @@ class ProductFragment : Fragment() {
                                 linearLayoutManager.orientation
                             )
                         )
-                        adapter = ProductsAdapter(this.requireContext(), response.data.data)
-                        rvProducts.adapter = adapter
-
+                        if(response.data.data.isNotEmpty()){
+                            shimmerLayout.stopShimmer()
+                            shimmerLayout.visibility= View.GONE
+                            adapter = ProductsAdapter(this.requireContext(), response.data.data)
+                            rvProducts.adapter = adapter
+                        }else{
+                            btnSearch.visibility = View.GONE
+                            etSearch.visibility = View.GONE
+                            ShowToast("no products founded")
+                        }
                     }
                 }
 

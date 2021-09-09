@@ -6,11 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
+    android:layout_margin="5dp"
     android:elevation="5dp">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="5dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProduct"
@@ -19,7 +20,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:padding="10dp"
+        android:padding="5dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

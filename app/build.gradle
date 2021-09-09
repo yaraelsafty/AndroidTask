@@ -66,4 +66,7 @@ dependencies {
     //QR generator
     implementation 'com.google.zxing:core:3.4.0'
 
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+
 }
