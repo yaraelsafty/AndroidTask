@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             val password = etPassword.text.toString()
             Log.d("onLoginClick", "$email / $password")
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                if (isValidEmail(email)) {
+                //if (isValidEmail(email)) {
                     if (isValidPassword(password)) {
                         loginViewModel.loginUser(
                             LoginInput(
@@ -52,9 +52,9 @@ class LoginActivity : AppCompatActivity() {
                         )
                         loading.visibility = View.VISIBLE
                         observeLogin()
-                    }else{
-                        ShowToast("Password should be strong ‘ Capital , Small chars , Numbers , Special chars")
-                    }
+//                    }else{
+//                        ShowToast("Password should be strong ‘ Capital , Small chars , Numbers , Special chars")
+//                    }
                 }else{
                     ShowToast("please, enter valid Email ")
 
