@@ -17,6 +17,12 @@ import com.appssquare.androidtask.Utils.Constants.Token
 import com.appssquare.androidtask.network.Repository.MainRepository
 import com.appssquare.androidtask.network.VMProviderFactory.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import android.util.Patterns
+
+
+
 
 class LoginActivity : AppCompatActivity() {
     lateinit var loginViewModel: LoginViewModel
@@ -36,14 +42,23 @@ class LoginActivity : AppCompatActivity() {
             val password = etPassword.text.toString()
             Log.d("onLoginClick", "$email / $password")
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginViewModel.loginUser(
-                    LoginInput(
-                        etUsername.text.toString(),
-                        etPassword.text.toString()
-                    )
-                )
-                loading.visibility = View.VISIBLE
-                observeLogin()
+                if (isValidEmail(email)) {
+                    if (isValidPassword(password)) {
+                        loginViewModel.loginUser(
+                            LoginInput(
+                                etUsername.text.toString(),
+                                etPassword.text.toString()
+                            )
+                        )
+                        loading.visibility = View.VISIBLE
+                        observeLogin()
+                    }else{
+                        ShowToast("Password should be strong ‘ Capital , Small chars , Numbers , Special chars")
+                    }
+                }else{
+                    ShowToast("please, enter valid Email ")
+
+                }
             }else{
                 ShowToast("please, enter Email and Password")
             }
@@ -98,5 +113,18 @@ class LoginActivity : AppCompatActivity() {
         var editor = sharedPreference.edit()
         editor.putString("TOKEN",token)
         editor.commit()
+    }
+    private fun isValidPassword(password: String): Boolean {
+        val pattern: Pattern
+        val matcher: Matcher
+        val specialCharacters = "-@%\\[\\}+'!/#$^?:;,\\(\"\\)~`.*=&\\{>\\]<_"
+        val PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[$specialCharacters])(?=\\S+$).{8,20}$"
+        pattern = Pattern.compile(PASSWORD_REGEX)
+        matcher = pattern.matcher(password)
+        return matcher.matches()
+    }
+    private fun isValidEmail(email: String): Boolean {
+        val pattern = Patterns.EMAIL_ADDRESS
+        return pattern.matcher(email).matches()
     }
 }
